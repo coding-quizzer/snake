@@ -22,11 +22,13 @@ const connect = function() {
     
     let timeoutDelay = 50;
     
-    setInterval(() => conn.write("Move: left"), 50);
+    const intLeft = setInterval(() => conn.write("Move: left"), 50);
     setTimeout(() => setInterval(() => {
-      conn.write("Move: left");
+      clearInterval(intLeft);
       conn.write("Move: up")
     }, 50), 1000);
+
+    setTimeout(() => conn.write("Move: stop"), 1200);
   });
   
   conn.on("data", (data) => {
