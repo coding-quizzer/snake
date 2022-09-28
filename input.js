@@ -1,6 +1,11 @@
 
 let connection;
 
+const cannedMessages = {
+  t: "hello world",
+  h: "hello",
+  b: "goodbye"
+};
 
 // setup interface to handle user input from stdin
 
@@ -25,39 +30,56 @@ const moveSnake = function (direction, timeInterval) {
 };
 
 const writeMessage = function (key) {
-  const cannedMessages = {
-    t: "hello world",
-    h: "hello",
-    b: "goodbye"
-  };
   connection.write(`Say: ${cannedMessages[key]}`);
 };
 
 const handleUserInput = function (key) {
-  const leftRightInverval = 50;
-  const upDownInterval = 60;
+  const directions = {
+    up: {
+      delay: 60,
+      key: "w"
+    },
+
+    down: {
+      delay: 60,
+      key: "s",
+    },
+
+    right: {
+      delay: 50,
+      key: "d", 
+    },
+
+    left: {
+      delay: 50,
+      key: "a"
+    }
+  }
+
+  
+  
+
+  const controlMovement  = function (key, direction) {
+    const dirObject = directions[direction];
+
+    if (key === dirObject.key) {
+      return moveSnake(direction, dirObject.delay)
+    }
+  };
+
   if (key === '\u0003') {
     process.exit();
   }
 
-  if (key === "w") {
-    return moveSnake("up", upDownInterval);
+  for (let index in directions) {
+    let dir = directions[index];
+    if (dir.key === key) {
+      return controlMovement(key, index);
+    }
   }
 
-  if (key === "a") {
-    return moveSnake("left", leftRightInverval);
-  }
-
-  if (key === "s") {
-    return moveSnake("down", upDownInterval);
-  }
-
-  if (key === "d") {
-    return moveSnake("right", leftRightInverval);
-  }
-
-  if (key === "h" || key === "t" || key === "b") {
-    return writeMessage(key);
+  if (Object.keys(cannedMessages).includes(key)) {
+      return writeMessage(key);
   }
 }
 
