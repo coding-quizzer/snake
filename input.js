@@ -22,7 +22,16 @@ const moveSnake = function (direction, timeInterval) {
 
   clearInterval(connection.move);
   connection.move = setInterval(() => connection.write(`Move: ${direction}`), timeInterval);
-}
+};
+
+const writeMessage = function (key) {
+  const cannedMessages = {
+    t: "hello world",
+    h: "hello",
+    b: "goodbye"
+  };
+  connection.write(`Say: ${cannedMessages[key]}`);
+};
 
 const handleUserInput = function (key) {
   const leftRightInverval = 50;
@@ -45,6 +54,10 @@ const handleUserInput = function (key) {
 
   if (key === "d") {
     return moveSnake("right", leftRightInverval);
+  }
+
+  if (key === "h" || key === "t" || key === "b") {
+    return writeMessage(key);
   }
 }
 
