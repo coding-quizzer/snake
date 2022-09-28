@@ -15,6 +15,7 @@ const connect = function() {
   conn.setEncoding("utf8");
 
   conn.on("connect", () => {
+    
     console.log("Successfully connected to the game server.");
 
     conn.write("Name: WRG");
@@ -22,13 +23,9 @@ const connect = function() {
     
     let timeoutDelay = 50;
     
-    const intLeft = setInterval(() => conn.write("Move: left"), 50);
-    setTimeout(() => setInterval(() => {
-      clearInterval(intLeft);
-      conn.write("Move: up")
-    }, 50), 1000);
+    conn.move = setInterval(() => conn.write("Move: left"), 50);
+    
 
-    setTimeout(() => conn.write("Move: stop"), 1200);
   });
   
   conn.on("data", (data) => {
