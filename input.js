@@ -18,31 +18,33 @@ const setupInput = function(conn) {
   return stdin;
 };
 
-const moveSnake = function (direction) {
+const moveSnake = function (direction, timeInterval) {
 
   clearInterval(connection.move);
-  connection.move = setInterval(() => connection.write(`Move: ${direction}`), 50);
+  connection.move = setInterval(() => connection.write(`Move: ${direction}`), timeInterval);
 }
 
 const handleUserInput = function (key) {
+  const leftRightInverval = 50;
+  const upDownInterval = 60;
   if (key === '\u0003') {
     process.exit();
   }
 
   if (key === "w") {
-    return moveSnake("up");
+    return moveSnake("up", upDownInterval);
   }
 
   if (key === "a") {
-    return console.log("Move: left");
+    return moveSnake("left", leftRightInverval);
   }
 
   if (key === "s") {
-    return console.log("Move: down");
+    return moveSnake("down", upDownInterval);
   }
 
   if (key === "d") {
-    return console.log("Move: right");
+    return moveSnake("right", leftRightInverval);
   }
 }
 
