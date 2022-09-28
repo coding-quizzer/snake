@@ -18,6 +18,15 @@ const connect = function() {
     console.log("Successfully connected to the game server.");
 
     conn.write("Name: WRG");
+
+    
+    let timeoutDelay = 50;
+    
+    setInterval(() => conn.write("Move: left"), 50);
+    setTimeout(() => setInterval(() => {
+      conn.write("Move: left");
+      conn.write("Move: up")
+    }, 50), 1000);
   });
   
   conn.on("data", (data) => {
