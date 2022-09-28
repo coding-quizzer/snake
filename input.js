@@ -1,11 +1,6 @@
-
+const {cannedMessages, directions} = require("./constants");
 let connection;
 
-const cannedMessages = {
-  t: "hello world",
-  h: "hello",
-  b: "goodbye"
-};
 
 // setup interface to handle user input from stdin
 
@@ -33,48 +28,19 @@ const writeMessage = function (key) {
   connection.write(`Say: ${cannedMessages[key]}`);
 };
 
+const controlMovement = (direction) => moveSnake(direction, directions[direction].delay);
+
+
 const handleUserInput = function (key) {
-  const directions = {
-    up: {
-      delay: 60,
-      key: "w"
-    },
-
-    down: {
-      delay: 60,
-      key: "s",
-    },
-
-    right: {
-      delay: 50,
-      key: "d", 
-    },
-
-    left: {
-      delay: 50,
-      key: "a"
-    }
-  }
-
-  
-  
-
-  const controlMovement  = function (key, direction) {
-    const dirObject = directions[direction];
-
-    if (key === dirObject.key) {
-      return moveSnake(direction, dirObject.delay)
-    }
-  };
 
   if (key === '\u0003') {
     process.exit();
   }
 
-  for (let index in directions) {
-    let dir = directions[index];
-    if (dir.key === key) {
-      return controlMovement(key, index);
+  for (let direction in directions) {
+    let dirObject = directions[direction];
+    if (dirObject.key === key) {
+      return controlMovement(direction);
     }
   }
 
