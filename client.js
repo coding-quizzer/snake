@@ -20,9 +20,6 @@ const connect = function() {
 
     conn.write("Name: WRG");
 
-    
-    let timeoutDelay = 50;
-    
     conn.move = setInterval(() => conn.write("Move: left"), 50);
     
 
